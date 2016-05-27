@@ -21,14 +21,14 @@ require 'random_data'
    )
  # end
 
- Post.find_or_create_by(
-   title:  "A Catchy Title Which May Have Never Been Written Before",
-   body:   "The body of which may have been written zero times."
+ this_post = Post.find_or_create_by(
+   title:  "A Catchy Title Which May Have Never Been Written Before Too",
+   body:   "The body of which may have been written zero times too."
  )
 
  Comment.find_or_create_by(
-    post:   Post.last,
-    body:   "Friends don't let friend comment. Ever!"
+    post:   this_post,
+    body:   "Friends don't let friend comment. Ever! Never Ever!"
  )
 
  puts "Seed finished"
