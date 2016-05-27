@@ -19,7 +19,17 @@ require 'random_data'
      post: posts.sample,
      body: RandomData.random_paragraph
    )
- end
+ # end
+
+ Post.find_or_create_by(
+   title:  "A Catchy Title Which May Have Never Been Written Before",
+   body:   "The body of which may have been written zero times."
+ )
+
+ Comment.find_or_create_by(
+    post:   Post.last,
+    body:   "Friends don't let friend comment. Ever!"
+ )
 
  puts "Seed finished"
  puts "#{Post.count} posts created"
