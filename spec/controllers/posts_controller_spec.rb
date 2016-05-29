@@ -17,6 +17,7 @@ RSpec.describe PostsController, type: :controller do
     end
   end
 
+  
   # describe "GET #show" do
   #   it "returns http success" do
   #     get :show
