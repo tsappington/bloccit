@@ -1,0 +1,20 @@
+<h1>All Questions</h1>
+
+
+<% @questions.each do |question| %>
+
+     <div class="media">
+       <div class="media-body">
+         <h4 class="media-heading">
+           <%= link_to question.title, question %>
+         </h4>
+
+         <% if question.resolved == true then resolved_status = "Yes!" else resolved_status = "No." end %>
+         <h5 class="media-heading">
+           Resolved? <strong><mark><%= resolved_status %></mark></strong>
+         </h5>
+
+       </div>
+     </div>
+
+<% end %>
