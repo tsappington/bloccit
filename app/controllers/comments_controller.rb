@@ -4,29 +4,46 @@ class CommentsController < ApplicationController
   before_action :authorize_user, only: [:destroy]
 
   def create
-    @post = Post.find(params[:post_id])
-    comment = @post.comments.new(comment_params)
+
+    if params[:post_id]
+      @comment_type = Post.find(params[:post_id])
+    elsif params[:topic_id]
+      @comment_type = Topic.find(params[:topic_id])
+    end
+    comment = @comment_type.comments.new(comment_params)
     comment.user = current_user
 
     if comment.save
       flash[:notice] = "Comment saved successfully."
-      redirect_to [@post.topic, @post]
+      if params[:post_id]
+        redirect_to [@comment_type.topic, @comment_type]
+      elsif params[:topic_id]
+        redirect_to [@comment_type]
+      end
     else
       flash[:alert] = "Comment failed to save."
-      redirect_to [@post.topic, @post]
+      redirect_to [@comment_type]
     end
   end
 
   def destroy
-    @post = Post.find(params[:post_id])
-    comment = @post.comments.find(params[:id])
+    if params[:post_id]
+      @comment_type = Post.find(params[:post_id])
+    elsif params[:topic_id]
+      @comment_type = Topic.find(params[:topic_id])
+    end
+    comment = @comment_type.comments.find(params[:id])
 
     if comment.destroy
       flash[:notice] = "Comment was deleted successfully."
-      redirect_to [@post.topic, @post]
+      if params[:post_id]
+        redirect_to [@comment_type.topic, @comment_type]
+      elsif params[:topic_id]
+        redirect_to [@comment_type]
+      end
     else
       flash[:alert] = "Comment couldn't be deleted. Try again."
-      redirect_to [@post.topic, @post]
+      redirect_to [@comment_type]
     end
   end
 
