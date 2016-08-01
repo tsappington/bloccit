@@ -14,6 +14,8 @@ class Post < ActiveRecord::Base
   validates :topic, presence: true
   validates :user, presence: true
 
+  after_create :favorite_own_post
+
   def up_votes
     votes.where(value: 1).count
   end
@@ -31,5 +33,20 @@ class Post < ActiveRecord::Base
     new_rank = points + age_in_days
     update_attribute(:rank, new_rank)
   end
+
+  private  # I see this is not necessary, but I don't know why.
+
+  def favorite_own_post
+    # This is all I could think to do.  I see the video is passing post & user arguments.
+    # But I didn't think the create method accepted arguments.
+    # -------------------------
+    # Favorite.create
+    # FavoriteMailer.new_post
+
+    # VIDEO SOLUTION
+    Favorite.create(post: self, user: self.user)
+    FavoriteMailer.new_post(self).deliver_now
+  end
+
 
 end
